@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: hostpath-flexvolume-deploy
+spec:
+  template:
+    metadata:
+      name: hostpath-flexvolume-deploy
+      labels:
+        app: hostpath-flexvolume-deploy
+    spec:
+      containers:
+        - image: 314315960/hostpath-flexvolume:v1.0
+          name: deploy
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /flexmnt
+              name: flexvolume-mount
+      volumes:
+        - name: flexvolume-mount
+          hostPath:
+            path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
